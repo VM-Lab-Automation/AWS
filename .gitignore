@@ -1,2 +1,5 @@
 env.sh
-.terraform*
+scripts/.terraform
+.credentials
+terraform.exe
+.idea
