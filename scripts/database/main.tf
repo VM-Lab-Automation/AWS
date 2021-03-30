@@ -5,7 +5,7 @@ resource "aws_db_instance" "database" {
   name                 = var.db_name
   username             = var.username
   password             = random_password.database_password.result
-//  publicly_accessible = true
+  publicly_accessible = true
   skip_final_snapshot = true
 
   vpc_security_group_ids = [var.db_security_group_id]

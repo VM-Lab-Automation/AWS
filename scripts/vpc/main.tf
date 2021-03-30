@@ -29,7 +29,6 @@ resource "aws_security_group" "db" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-
   # Allow all outbound traffic.
   egress {
     from_port   = 0
@@ -47,6 +46,7 @@ resource "aws_subnet" "primary" {
   cidr_block = "10.0.1.0/24"
   vpc_id = aws_vpc.vpc.id
   availability_zone = data.aws_availability_zones.available.names[0]
+  map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "secondary" {
