@@ -1,7 +1,8 @@
 project = "vm-lab-automation"
 location = "us-east-1"
+env = "dev"
 
-shared_credentials_file = "../.credentials"
+shared_credentials_file = "../.aws/credentials"
 
 database = {
   db_name = "vlab"

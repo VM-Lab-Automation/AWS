@@ -2,10 +2,15 @@
 Terraform files for deployment of VMLabAutomation
 
 ## Setup
-Requires: terraform 0.14.7
-In bash (git bash on windows):
-1. `mv env.sh.template env.sh `
-2. Fill `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in `env.sh`
-3. `./env.sh`
-
-It needs to be repeated each time unless variables are set globally.
+Requires: terraform 0.14.7 \
+Navigate to Amazon AWS Console and copy credentials in format:\
+```
+[default]
+aws_access_key_id=
+aws_secret_access_key=
+aws_session_token=
+```
+Paste them in `./.aws/credentials`
+Then in the main folder type:
+`terraform -chdir=scripts init`
+And at the end `terraform -chdir=scripts apply -var-file=../env/dev.tfvars`
