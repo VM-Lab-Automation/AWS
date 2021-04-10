@@ -1,6 +1,6 @@
 env.sh
 scripts/.terraform
-.credentials
+.aws
 terraform.exe
 .idea
 .terraform
