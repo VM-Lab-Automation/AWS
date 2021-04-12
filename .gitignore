@@ -4,3 +4,4 @@ scripts/.terraform
 terraform.exe
 .idea
 .terraform
+*.tfstate*

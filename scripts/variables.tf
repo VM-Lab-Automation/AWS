@@ -9,6 +9,13 @@ variable "database" {
   })
 }
 
+variable "ecs" {
+  type = object({
+    container_registry_username = string
+    container_registry_password = string
+  })
+}
+
 variable "project" {
   type        = string
 }

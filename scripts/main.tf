@@ -30,3 +30,11 @@ module "vpc" {
   project = var.project
   env = var.env
 }
+
+module "ecs" {
+  source = "./ecs"
+  project = var.project
+  env = var.env
+  container_registry_username=var.ecs.container_registry_username
+  container_registry_password=var.ecs.container_registry_password
+}
