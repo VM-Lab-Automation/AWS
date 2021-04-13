@@ -5,3 +5,4 @@ terraform.exe
 .idea
 .terraform
 *.tfstate*
+*.lock.hcl

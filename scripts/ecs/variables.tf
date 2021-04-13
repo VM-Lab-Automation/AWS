@@ -18,3 +18,7 @@ variable "container_registry_username" {
 variable "container_registry_password" {
   type        = string
 }
+
+variable "subnet_ids" {
+  type = list(string)
+}
