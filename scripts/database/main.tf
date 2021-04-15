@@ -1,6 +1,6 @@
 resource "random_password" "database_password" {
   length = 16
-  special = true
+  special = false
 
   keepers = {
     master_password_seed = var.password_seed

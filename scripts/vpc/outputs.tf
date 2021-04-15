@@ -5,3 +5,7 @@ output "db_security_group_id" {
 output "subnet_ids" {
   value = [aws_subnet.primary.id, aws_subnet.secondary.id]
 }
+
+output "vpc_id" {
+  value = aws_vpc.main.id
+}

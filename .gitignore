@@ -6,3 +6,5 @@ terraform.exe
 .terraform
 *.tfstate*
 *.lock.hcl
+secret.tfvars
+priv_key

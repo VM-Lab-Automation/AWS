@@ -12,8 +12,3 @@ database = {
   engine_type = "postgres"
   instance_class = "db.t3.micro"
 }
-
-ecs = {
-  container_registry_username="admin"
-  container_registry_password="password"
-}
