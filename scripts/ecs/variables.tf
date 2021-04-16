@@ -24,5 +24,9 @@ variable "container_registry_password" {
 }
 
 variable "subnet_ids" {
-  type = list(string)
+  type        = list(string)
+}
+
+variable "db_connection_string" {
+  type        = string   
 }

@@ -19,6 +19,14 @@ resource "aws_security_group" "sg_cluster_ec2" {
   }
 
   ingress {
+    from_port   = "8080"
+    to_port     = "8080"
+    protocol    = "tcp"
+    description = "HTTP Port"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = "22"
     to_port     = "22"
     protocol    = "tcp"
@@ -58,14 +66,14 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
     create_before_destroy = true
   }
   associate_public_ip_address = "false"
-  user_data            = templatefile("${path.module}/user-data.sh", { cluster_name = aws_ecs_cluster.backend_cluster.name })
+  user_data            = templatefile("${path.module}/user-data.sh", { cluster_name = aws_ecs_cluster.vmautomation_cluster.name })
 }
 
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   name = "ecs-autoscaling-group"
-  max_size = "1"
-  min_size = "1"
-  desired_capacity = "1"
+  max_size = "3"
+  min_size = "2"
+  desired_capacity = "2"
   vpc_zone_identifier = var.subnet_ids
   launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
   health_check_type = "ELB"
