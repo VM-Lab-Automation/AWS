@@ -11,6 +11,14 @@ resource "aws_security_group" "sg_lb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = "8000"
+    to_port     = "8000"
+    protocol    = "tcp"
+    description = "Worker Port"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -40,6 +48,22 @@ resource "aws_lb_listener" "frontend" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.frontend.arn
+  }
+}
+
+
+resource "aws_lb_listener" "worker" {
+  load_balancer_arn = aws_lb.vmautomation.arn
+
+  port              = 8000
+  protocol          = "HTTP"
+
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"
+#   certificate_arn   = aws_acm_certificate.this.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.worker.arn
   }
 }
 
@@ -106,7 +130,37 @@ resource "aws_lb_target_group" "backend" {
   }
 }
 
+resource "aws_lb_target_group" "worker" {
+  port     = 8000
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  load_balancing_algorithm_type = "least_outstanding_requests"
+
+  health_check {
+    healthy_threshold   = 2
+    interval            = 30
+    protocol            = "HTTP"
+    unhealthy_threshold = 2
+    path                = "/"
+  }
+
+  depends_on = [
+    aws_lb.vmautomation
+  ]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_autoscaling_attachment" "target" {
   autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling-group.name
   alb_target_group_arn   = aws_lb_target_group.frontend.arn
+}
+
+
+resource "aws_autoscaling_attachment" "backend" {
+  autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling-group.name
+  alb_target_group_arn   = aws_lb_target_group.backend.arn
 }
