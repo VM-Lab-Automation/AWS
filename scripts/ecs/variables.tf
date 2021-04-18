@@ -30,3 +30,22 @@ variable "subnet_ids" {
 variable "db_connection_string" {
   type        = string   
 }
+
+variable "app_attr" {
+  type        = string
+  default     = "app"   
+}
+
+variable "worker_attr" {
+  type        = string   
+  default     = "worker"
+}
+
+variable "password_seed" {
+  type        = string
+}
+
+variable "workers_count" {
+  type        = number
+  default     = 1
+}

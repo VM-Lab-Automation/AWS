@@ -40,4 +40,5 @@ module "ecs" {
   subnet_ids = module.vpc.subnet_ids
   vpc_id = module.vpc.vpc_id
   db_connection_string = module.database.db_connection_string
+  password_seed = var.database.password_seed
 }
