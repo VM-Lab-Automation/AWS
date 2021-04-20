@@ -83,7 +83,7 @@ resource "aws_key_pair" "cluster_keypair" {
 
 resource "aws_launch_configuration" "ecs-launch-configuration" {
   name = "ecs-launch-configuration"
-  image_id = "ami-aff65ad2"#data.aws_ami.ecs_optimized.id
+  image_id = "ami-09de86f7e8d5a18e6"#data.aws_ami.ecs_optimized.id
   instance_type = "t2.small"
   iam_instance_profile = aws_iam_instance_profile.ecs_execution_profile.id
   security_groups      = [aws_security_group.sg_cluster_app.id]
@@ -115,7 +115,7 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
 
 resource "aws_instance" "ecs_worker" {
   count = var.workers_count
-  ami = "ami-aff65ad2"#data.aws_ami.ecs_optimized.id
+  ami = "ami-09de86f7e8d5a18e6"#data.aws_ami.ecs_optimized.id
   instance_type = "t2.medium"
   iam_instance_profile = aws_iam_instance_profile.ecs_execution_profile.id
   subnet_id = var.subnet_ids[0]
