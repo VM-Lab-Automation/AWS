@@ -1,8 +1,5 @@
 locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 
-# source blocks configure your builder plugins; your source is then used inside
-# build blocks to create resources. A build block runs provisioners and
-# post-processors on an instance created by the source.
 source "amazon-ebs" "amzn_ecs_worker" {
   ami_name      = "amzn_ecs_worker ${local.timestamp}"
   instance_type = "t2.micro"
@@ -19,19 +16,6 @@ source "amazon-ebs" "amzn_ecs_worker" {
   ssh_username = "ubuntu"
 }
 
-variable "ecs_config" {
-  type = string
-  default = <<EOF
-    ECS_DATADIR=/data
-    ECS_ENABLE_TASK_IAM_ROLE=true
-    ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true
-    ECS_LOGFILE=/log/ecs-agent.log
-    ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"]
-    ECS_LOGLEVEL=info
-  EOF
-}
-
-# a build block invokes sources and runs provisioning steps on them.
 build {
   sources = ["source.amazon-ebs.amzn_ecs_worker"]
 
@@ -50,8 +34,13 @@ build {
         "sudo iptables -A INPUT -i eth0 -p tcp --dport 51678 -j DROP",
         "sudo sh -c 'iptables-save > /etc/iptables/rules.v4'",
         "sudo mkdir -p /etc/ecs && sudo touch /etc/ecs/ecs.config",
-        "echo -n ${var.ecs_config}",
-        "sudo sh -c 'echo ${var.ecs_config} >> /etc/ecs/ecs.config'",
+        "echo 'ECS_DATADIR=/data' >> ecs.config",
+        "echo 'ECS_ENABLE_TASK_IAM_ROLE=true' >> ecs.config",
+        "echo 'ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true' >> ecs.config",
+        "echo 'ECS_LOGFILE=/log/ecs-agent.log' >> ecs.config",
+        "echo 'ECS_AVAILABLE_LOGGING_DRIVERS=[\"json-file\",\"awslogs\"]' >> ecs.config",
+        "echo 'ECS_LOGLEVEL=info' >> ecs.config",
+        "sudo mv ecs.config /etc/ecs/ecs.config",
         "sudo cat /etc/ecs/ecs.config",
         "curl -o ecs-agent.tar https://s3.amazonaws.com/amazon-ecs-agent-us-east-1/ecs-agent-latest.tar",
         "sudo docker load --input ./ecs-agent.tar",

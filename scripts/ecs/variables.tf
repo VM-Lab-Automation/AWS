@@ -49,3 +49,8 @@ variable "workers_count" {
   type        = number
   default     = 1
 }
+
+variable "cluster_ami" {
+  type        = string
+  default     = "ami-05f5c44a5ac40439e"
+}
