@@ -122,4 +122,9 @@ resource "aws_instance" "ecs_worker" {
     cluster_name = aws_ecs_cluster.vmautomation_cluster.name, 
     attributes = jsonencode({ dst =  "${var.worker_attr}${count.index}"}) 
   })
+
+  root_block_device {
+    volume_type = "gp2"
+    volume_size = "100"
+  }
 }

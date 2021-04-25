@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "cr_secret" {
-  name                = "cr_secret_18"
+  name                = "cr_secret_21"
 }
 
 resource "aws_secretsmanager_secret_version" "cr_secret_version" {

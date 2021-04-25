@@ -113,7 +113,7 @@ resource "aws_ecs_task_definition" "worker" {
         },
         {
           name = "LABS_PATH"
-          value = "/vmautomation/labs${count.index}/"
+          value = "/labs"
         },
         {
           name = "WORKER_HOST"
