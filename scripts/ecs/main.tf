@@ -1,5 +1,5 @@
 resource "random_password" "jwt_password" {
-  length = 24
+  length  = 24
   special = false
 
   keepers = {
@@ -52,11 +52,11 @@ resource "aws_ecs_task_definition" "backend" {
       ]
       environment = [
         {
-          name = "DATABASE_CONNECTION_STRING"
+          name  = "DATABASE_CONNECTION_STRING"
           value = var.db_connection_string
         },
         {
-          name = "JWT_SECRET"
+          name  = "JWT_SECRET"
           value = random_password.jwt_password.result
         }
       ]
@@ -74,53 +74,53 @@ resource "aws_ecs_task_definition" "backend" {
 }
 
 resource "aws_ecs_task_definition" "worker" {
-  count = var.workers_count
+  count  = var.workers_count
   family = "worker_service"
 
-        # when available in ami
-        # {
-        #   containerPath = "/dev/vboxdrv"
-        #   sourceVolume = "/dev/vboxdrv"
-        # }
+  # when available in ami
+  # {
+  #   containerPath = "/dev/vboxdrv"
+  #   sourceVolume = "/dev/vboxdrv"
+  # }
   container_definitions = jsonencode([
     {
-      name        = "worker"
-      image       = "vmautomation.azurecr.io/vmautomationworker:latest"
-      cpu         = 2
-      memory      = 2048
-      essential   = true
-      privileged  = true
-      command     = ["./start_release.sh", "800${count.index}"]
-      
+      name       = "worker"
+      image      = "vmautomation.azurecr.io/vmautomationworker:latest"
+      cpu        = 2
+      memory     = 2048
+      essential  = true
+      privileged = true
+      command    = ["./start_release.sh", "800${count.index}"]
+
       mountPoints = [
         {
           containerPath = "/var/lib/docker"
-          sourceVolume = "dind${count.index}"
+          sourceVolume  = "dind${count.index}"
         },
         {
           containerPath = "/labs"
-          sourceVolume = "labs${count.index}"
+          sourceVolume  = "labs${count.index}"
         },
       ]
       environment = [
         {
-          name = "WORKER_ID"
+          name  = "WORKER_ID"
           value = "WORKER_AWS${count.index}"
         },
         {
-          name = "MAIN_SERVER_URL"
+          name  = "MAIN_SERVER_URL"
           value = "http://${aws_lb.vmautomation.dns_name}/api"
         },
         {
-          name = "LABS_PATH"
+          name  = "LABS_PATH"
           value = "/labs"
         },
         {
-          name = "WORKER_HOST"
+          name  = "WORKER_HOST"
           value = aws_instance.ecs_worker[count.index].public_dns
         },
         {
-          name = "WORKER_PORT"
+          name  = "WORKER_PORT"
           value = "800${count.index}"
         }
       ]

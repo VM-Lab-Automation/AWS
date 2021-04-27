@@ -1,7 +1,7 @@
 
 resource "aws_security_group" "sg_lb" {
-  name = "lb-sg"
-  vpc_id      = var.vpc_id
+  name   = "lb-sg"
+  vpc_id = var.vpc_id
 
   ingress {
     from_port   = "80"
@@ -39,11 +39,11 @@ resource "aws_lb" "vmautomation" {
 resource "aws_lb_listener" "frontend" {
   load_balancer_arn = aws_lb.vmautomation.arn
 
-  port              = 80
-  protocol          = "HTTP"
+  port     = 80
+  protocol = "HTTP"
 
-#   ssl_policy        = "ELBSecurityPolicy-2016-08"
-#   certificate_arn   = aws_acm_certificate.this.arn
+  #   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #   certificate_arn   = aws_acm_certificate.this.arn
 
   default_action {
     type             = "forward"
@@ -55,11 +55,11 @@ resource "aws_lb_listener" "frontend" {
 resource "aws_lb_listener" "worker" {
   load_balancer_arn = aws_lb.vmautomation.arn
 
-  port              = 8000
-  protocol          = "HTTP"
+  port     = 8000
+  protocol = "HTTP"
 
-#   ssl_policy        = "ELBSecurityPolicy-2016-08"
-#   certificate_arn   = aws_acm_certificate.this.arn
+  #   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #   certificate_arn   = aws_acm_certificate.this.arn
 
   default_action {
     type             = "forward"
@@ -77,7 +77,7 @@ resource "aws_lb_listener_rule" "redirect_based_on_path" {
 
   condition {
     path_pattern {
-      values = ["/api/*","/api/","/api","/swaggerui/*","/swagger.json"]
+      values = ["/api/*", "/api/", "/api", "/swaggerui/*", "/swagger.json"]
     }
   }
 }
