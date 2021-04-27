@@ -1,0 +1,9 @@
+[
+    {
+      "Description": "P4Lab",
+      "Format": "ova",
+      "UserBucket": {
+          "S3Bucket": "packerpost",
+          "S3Key": "packer-import-1619127587.ova"
+      }
+  }]

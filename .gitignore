@@ -4,3 +4,7 @@ scripts/.terraform
 terraform.exe
 .idea
 .terraform
+*.tfstate*
+*.lock.hcl
+secret.tfvars
+priv_key
