@@ -9,6 +9,13 @@ source "virtualbox-vm" "p4lab" {
 
 build {
   sources = ["source.virtualbox-vm.p4lab"]
+
+  provisioner "shell" {
+      inline = [
+        "sudo chown -R p4: /home/p4/tutorials/exercises/blackholing"
+      ]
+  }
+
   # needs a vmimport role:
   # https://docs.aws.amazon.com/vm-import/latest/userguide/vmie_prereqs.html#vmimport-role
   post-processors {

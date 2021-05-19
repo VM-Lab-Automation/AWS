@@ -44,11 +44,9 @@ build {
         "sudo cat /etc/ecs/ecs.config",
         "curl -o ecs-agent.tar https://s3.amazonaws.com/amazon-ecs-agent-us-east-1/ecs-agent-latest.tar",
         "sudo docker load --input ./ecs-agent.tar",
-        # "sudo docker run --name ecs-agent --detach=true --restart=on-failure:10 --volume=/var/run:/var/run --volume=/var/log/ecs/:/log --volume=/var/lib/ecs/data:/data --volume=/etc/ecs:/etc/ecs --net=host --env-file=/etc/ecs/ecs.config amazon/amazon-ecs-agent:latest",
         "sudo apt-get -y install virtualbox"
       ]
     }
-
 }
 
 
